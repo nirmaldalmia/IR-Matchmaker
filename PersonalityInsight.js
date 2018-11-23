@@ -22,36 +22,6 @@ const rl = readline.createInterface({
 });
 PersonalityProfiling();
 
-
-// rl.question('Please enter a short paragraph for Watson to analyze...', (text) => {
-
-//   let params = {
-//     content: text,
-//     content_type: 'text/plain',
-//     raw_scores: true,
-//     consumption_preferences: true
-//   };
-
-//   personality_insights.profile(params, function (error, response) {
-//     if (error)
-//       console.log('Error:', error);
-//     else
-//       console.log(getTextSummary(response));
-//     //console.log(JSON.stringify(response, null, 2));
-//   });
-
-//   rl.close();
-// });
-
-// const getTextSummary = personalityProfile => {
-//   let textSummary = v3EnglishTextSummaries.getSummary(personalityProfile);
-//   if (typeof (textSummary) !== 'string') {
-//     console.log("Could not get summary.");
-//   } else {
-//     return textSummary;
-//   }
-// };
-
 function writeToFile() {
   fs.writeFile("./personality.json", JSON.stringify(data, null, 4), (err) => {
     if (err) {
@@ -62,30 +32,23 @@ function writeToFile() {
   });
 }
 
-function aboutExpand(about) {
+function aboutExpand(about, i) {
   let str = about;
   while ((about.split(' ').length) < 100) {
     about = about + str;
   }
+  PersonalityAnalysis(about, i);
   return about;
 }
 
-var processed = 0;
-
 function PersonalityProfiling() {
-  var i, personality, about;
-  for (i = 1; i <= 1; i++) {
-    about = aboutExpand(data[i].about);
-    personality = PersonalityAnalysis(about);
-    data[i].personality = personality;
-    // if (processed === 5) {
-    //   writeToFile();
-    // }
+  var i;
+  for (i = 1; i <= 5; i++) {
+    about = aboutExpand(data[i].about, i);
   }
-  // writeToFile();
 }
 
-function PersonalityAnalysis(about) {
+function PersonalityAnalysis(about, i) {
   let params = {
     content: about,
     content_type: 'text/plain',
@@ -99,14 +62,10 @@ function PersonalityAnalysis(about) {
     else
       var personalityText = getTextSummary(response);
     console.log(personalityText);
-    return (personalityText);
-    //console.log(JSON.stringify(response, null, 2));
-  });
-  processed++;
-  if (processed === 5) {
+    data[i].personality = personalityText;
     writeToFile();
-  }
-  // rl.close();
+    return (personalityText);
+  });
 }
 
 function getTextSummary(personalityProfile) {
@@ -117,4 +76,4 @@ function getTextSummary(personalityProfile) {
     return textSummary;
   }
 }
-
+// rl.close();
