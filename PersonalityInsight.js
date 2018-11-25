@@ -10,7 +10,7 @@ const personality_insights = new PersonalityInsightsV3({
 });
 const PersonalityTextSummaries = require('personality-text-summary');
 var fs = require("fs");
-var data = require('./data.json');
+var data = require('./personality.json');
 // var personality = require('./personality.json');
 const v3EnglishTextSummaries = new PersonalityTextSummaries({
   locale: 'en',
@@ -45,7 +45,7 @@ function aboutExpand(about, i) {
 
 function PersonalityProfiling() {
   var i;
-  for (i = 1; i <= 5; i++) {
+  for (i = 394; i <= 394; i++) {
     about = aboutExpand(data[i].about, i);
   }
 }
