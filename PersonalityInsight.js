@@ -45,7 +45,7 @@ function aboutExpand(about, i) {
 
 function PersonalityProfiling() {
   var i;
-  for (i = 394; i <= 394; i++) {
+  for (i = 1; i <= 500; i++) {
     about = aboutExpand(data[i].about, i);
   }
 }
